@@ -18,6 +18,14 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"GeneralContractor","name":"Evopros Construction Inc.","url":"https://evopros.ca/","telephone":"+1-343-576-8588","email":"info@evopros.ca","image":"https://evopros.ca/img/tm-after.jpg","areaServed":[{"@type":"City","name":"Ottawa"},{"@type":"City","name":"Gatineau"},{"@type":"City","name":"Kemptville"},{"@type":"City","name":"Arnprior"},{"@type":"City","name":"Carleton Place"},{"@type":"City","name":"Renfrew"},{"@type":"City","name":"Rockland"},{"@type":"City","name":"Russell"}],"address":{"@type":"PostalAddress","addressLocality":"Ottawa","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://www.instagram.com/evopros.construction/"],"makesOffer":["Kitchen renovation","Bathroom renovation","Basement finishing","Flooring","Painting","Commercial fit-out"]}
 </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EMB72EQQL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9EMB72EQQL');
+</script>
 <script>document.documentElement.classList.add('js')</script>
 <style>
 :root{
@@ -350,6 +358,7 @@ footer small{flex-basis:100%;font-size:.8rem}
   <div class="wrap">
     <span><b>Evopros Construction Inc.</b> · Ottawa and Gatineau</span>
     <span><a href="tel:+13435768588">(343) 576-8588</a> · <a href="mailto:info@evopros.ca">info@evopros.ca</a> · <a href="https://www.instagram.com/evopros.construction/" target="_blank" rel="noopener">Instagram</a></span>
+    <span><a href="privacy.html">Privacy</a></span>
     <small>© 2026 Evopros Construction Inc. Basement and flooring photos by Point3D Commercial Imaging Ltd. on <a href="https://unsplash.com/@point3d" target="_blank" rel="noopener">Unsplash</a>.</small>
   </div>
 </footer>
@@ -364,6 +373,11 @@ footer small{flex-basis:100%;font-size:.8rem}
 (() => {
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = id => document.getElementById(id);
+  // tracking: Google Analytics now, Meta Pixel once its code is added (fbq)
+  const track = (name, params = {}, metaName) => {
+    try { if (window.gtag) gtag('event', name, params); } catch (e) {}
+    try { if (window.fbq && metaName) fbq('track', metaName, params); } catch (e) {}
+  };
 
   // hero video
   const v = $('herovid');
@@ -406,6 +420,7 @@ footer small{flex-basis:100%;font-size:.8rem}
     $('status-t').innerHTML = lead.covered
       ? `Yes, we cover ${fsa}, ${lead.area}.<span>Free on-site estimate, no obligation.</span>`
       : `You're a bit outside our usual area.<span>We work in Ottawa and up to about an hour around it. Leave your details and we'll tell you if we can help.</span>`;
+    track('area_check', {covered: lead.covered ? 'yes' : 'no', area: lead.area || 'outside', postal_prefix: fsa}, 'FindLocation');
     cform.style.display = 'none'; areas.style.display = 'none';
     card.style.display = 'block'; requestAnimationFrame(() => card.classList.add('show'));
     go(1);
@@ -421,7 +436,7 @@ footer small{flex-basis:100%;font-size:.8rem}
     lead[key] = b.innerText.replace(/\s+/g, ' ').trim();
     if (after) after();
   });
-  pick('need', 'need', () => setTimeout(() => { $('need-show').textContent = lead.need + ' · ' + lead.postal; go(2); }, 180));
+  pick('need', 'need', () => setTimeout(() => { track('select_project', {project: lead.need}); $('need-show').textContent = lead.need + ' · ' + lead.postal; go(2); }, 180));
   pick('when', 'when');
 
   $('book').addEventListener('click', async () => {
@@ -441,12 +456,20 @@ footer small{flex-basis:100%;font-size:.8rem}
       const r = await fetch('https://formsubmit.co/ajax/info@evopros.ca', {method: 'POST', headers: {'Accept': 'application/json'}, body: fd});
       if (!r.ok) throw 0;
       $('done-t').textContent = `${lead.need} estimate, ${lead.when.toLowerCase()}. We'll text ${$('ph').value.trim()}.`;
+      track('generate_lead', {project: lead.need, area: lead.area || 'outside', best_time: lead.when, currency: 'CAD', value: 1}, 'Lead');
       $('change').style.visibility = 'hidden';
       go(3); bars.forEach(b => b.classList.add('on'));
     } catch {
       btn.disabled = false; btn.firstChild.textContent = 'Book my estimate ';
       msg.innerHTML = 'That didn\'t go through. Please call or text <a href="tel:+13435768588">(343) 576-8588</a>.'; msg.classList.add('on');
     }
+  });
+
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="tel:"], a[href^="sms:"]'); if (!a) return;
+    const where = a.closest('header') ? 'header' : a.closest('.mbar') ? 'phone_bar' : a.closest('.card') ? 'form_card' : 'page';
+    if (a.href.startsWith('tel:')) track('click_to_call', {location: where}, 'Contact');
+    else track('click_to_text', {location: where}, 'Contact');
   });
 
   // ---------- before / after ----------
