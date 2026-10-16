@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Evopros Construction | Renovations in Ottawa &amp; Gatineau</title>
-<meta name="description" content="Kitchen, bathroom, basement and office renovations in Ottawa and Gatineau. One crew, start to finish. Check if we cover your area and book a free estimate.">
+<meta name="description" content="Kitchen, bathroom, basement and office renovations in Ottawa, Gatineau and up to an hour around, including Kemptville, Arnprior and Renfrew County. One crew, start to finish. Check if we cover your area and book a free estimate.">
 <link rel="canonical" href="https://evopros.ca/">
 <meta property="og:title" content="Evopros Construction | Renovations in Ottawa">
 <meta property="og:description" content="Kitchens, bathrooms, basements and offices in Ottawa and Gatineau. Free estimates.">
@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"GeneralContractor","name":"Evopros Construction Inc.","url":"https://evopros.ca/","telephone":"+1-343-576-8588","email":"info@evopros.ca","image":"https://evopros.ca/img/tm-after.jpg","areaServed":[{"@type":"City","name":"Ottawa"},{"@type":"City","name":"Gatineau"}],"address":{"@type":"PostalAddress","addressLocality":"Ottawa","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://www.instagram.com/evopros.construction/"],"makesOffer":["Kitchen renovation","Bathroom renovation","Basement finishing","Flooring","Painting","Commercial fit-out"]}
+{"@context":"https://schema.org","@type":"GeneralContractor","name":"Evopros Construction Inc.","url":"https://evopros.ca/","telephone":"+1-343-576-8588","email":"info@evopros.ca","image":"https://evopros.ca/img/tm-after.jpg","areaServed":[{"@type":"City","name":"Ottawa"},{"@type":"City","name":"Gatineau"},{"@type":"City","name":"Kemptville"},{"@type":"City","name":"Arnprior"},{"@type":"City","name":"Carleton Place"},{"@type":"City","name":"Renfrew"},{"@type":"City","name":"Rockland"},{"@type":"City","name":"Russell"}],"address":{"@type":"PostalAddress","addressLocality":"Ottawa","addressRegion":"ON","addressCountry":"CA"},"sameAs":["https://www.instagram.com/evopros.construction/"],"makesOffer":["Kitchen renovation","Bathroom renovation","Basement finishing","Flooring","Painting","Commercial fit-out"]}
 </script>
 <script>document.documentElement.classList.add('js')</script>
 <style>
@@ -222,7 +222,7 @@ footer small{flex-basis:100%;font-size:.8rem}
         <button class="btn" type="submit">Check<span class="long">&nbsp;my area</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </form>
       <p class="err-line" id="pc-err" role="alert"></p>
-      <div class="areas" id="areas"><b>We cover</b><span>Orléans</span><span>Kanata</span><span>Barrhaven</span><span>Nepean</span><span>Stittsville</span><span>Centretown</span><span>Gatineau</span></div>
+      <div class="areas" id="areas"><b>We cover</b><span>Orléans</span><span>Kanata</span><span>Barrhaven</span><span>Stittsville</span><span>Kemptville</span><span>Arnprior</span><span>Burnstown</span><span>Gatineau</span><span>+ 1 hour around Ottawa</span></div>
 
       <!-- steps 1-3: card -->
       <div class="card" id="card" aria-live="polite">
@@ -314,7 +314,7 @@ footer small{flex-basis:100%;font-size:.8rem}
 
 <section class="svc" id="services" aria-labelledby="svc-h">
   <div class="wrap">
-    <div class="head"><h2 id="svc-h" class="rv">What <b>we do</b></h2><p class="rv" style="--i:1">Homes and businesses in Ottawa and Gatineau.</p></div>
+    <div class="head"><h2 id="svc-h" class="rv">What <b>we do</b></h2><p class="rv" style="--i:1">Homes and businesses in Ottawa, Gatineau and up to an hour around.</p></div>
     <div class="tiles">
       <figure class="rv"><div class="ph"><img src="img/mac-after2.jpg" alt="Finished kitchen with tile backsplash and new range" width="720" height="900" loading="lazy"></div><figcaption><b>Kitchens</b><span>Cabinets, tile and layout changes</span></figcaption></figure>
       <figure class="rv" style="--i:1"><div class="ph"><img src="img/allenby-vanity-l.jpg" alt="Bathroom with a walnut double vanity" width="960" height="1280" loading="lazy"></div><figcaption><b>Bathrooms</b><span>Showers, vanities, full rebuilds</span></figcaption></figure>
@@ -380,10 +380,17 @@ footer small{flex-basis:100%;font-size:.8rem}
     bars.forEach((b, i) => b.classList.toggle('on', i < n));
     if (innerWidth < 760) setTimeout(() => card.scrollIntoView({block: 'nearest', behavior: still ? 'auto' : 'smooth'}), 60);
   };
+  // Ottawa plus roughly an hour around it (owner, 2026-10-16)
+  const AREAS = {
+    K4A:'Orléans', K4B:'Navan and Cumberland', K4C:'Cumberland', K4M:'Manotick', K4P:'Greely', K4R:'Russell', K4K:'Rockland',
+    K0A:'the Ottawa area', K0G:'the Kemptville area', K0J:'the Burnstown and Renfrew County area', K0C:'the Winchester area', K0E:'the Prescott area',
+    K7C:'Carleton Place', K7S:'Arnprior', K7A:'Smiths Falls', K7H:'Perth', K7V:'Renfrew',
+    J9B:'Chelsea', J0X:'the Outaouais', J0V:'the Papineau area'
+  };
   const areaOf = fsa => {
-    if (/^K[12]/.test(fsa) || /^K4[ABCMP]/.test(fsa) || fsa === 'K0A') return 'Ottawa';
+    if (/^K[12]/.test(fsa)) return 'Ottawa';
     if (/^J8[L-Z]/.test(fsa) || /^J9[AHJ]/.test(fsa)) return 'Gatineau';
-    return '';
+    return AREAS[fsa] || '';
   };
   cform.addEventListener('submit', e => {
     e.preventDefault();
@@ -397,8 +404,8 @@ footer small{flex-basis:100%;font-size:.8rem}
     const st = $('status');
     st.classList.toggle('far', !lead.covered);
     $('status-t').innerHTML = lead.covered
-      ? `Yes, we cover ${fsa} in ${lead.area}.<span>Free on-site estimate, no obligation.</span>`
-      : `You're a bit outside our usual area.<span>We work across Ottawa and Gatineau. Leave your details and we'll tell you if we can help.</span>`;
+      ? `Yes, we cover ${fsa}, ${lead.area}.<span>Free on-site estimate, no obligation.</span>`
+      : `You're a bit outside our usual area.<span>We work in Ottawa and up to about an hour around it. Leave your details and we'll tell you if we can help.</span>`;
     cform.style.display = 'none'; areas.style.display = 'none';
     card.style.display = 'block'; requestAnimationFrame(() => card.classList.add('show'));
     go(1);
